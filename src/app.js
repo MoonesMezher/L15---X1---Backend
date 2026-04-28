@@ -16,7 +16,16 @@ app.use("/api/v1/users", require("./routes/users.route"));
 // PORT
 const PORT = process.env.PORT || 3000;
 
-// listen
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+const mongoose = require("mongoose");
+mongoose.connect(process.env.MONGODB_URL)
+    .then(() => {
+        console.log("Mongodb Connected Successfully");
+        
+        // listen
+        app.listen(PORT, () => {
+            console.log(`Server is running on http://localhost:${PORT}`);
+        });
+    })
+    .catch(err => {
+        console.log("ERROR: ", err.message);
+    })
